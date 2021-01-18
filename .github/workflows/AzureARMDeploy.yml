@@ -13,9 +13,9 @@ jobs:
   deoloy:
     runs-on: ubuntu-latest
     steps:
-      - uses: azure/login@v1
+      - uses: azure/actions/login@v1
         with:
-          creds: $({secrets.AZURE_CREDENTIALS})
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Checkout source code
         uses: actions/checkout@v2
