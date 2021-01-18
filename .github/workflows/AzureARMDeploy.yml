@@ -27,8 +27,8 @@ jobs:
             az deployment group create \
             --name SADeployment \
             --resource-group cloud-shell-storage-centralindia \
-            --template-file armtemplate\StorageAccount.json \
-            --parameters armtemplate\StorageAccount.params.json \
+            --template-file StorageAccount.json \
+            --parameters StorageAccount.params.json \
              
 
             
