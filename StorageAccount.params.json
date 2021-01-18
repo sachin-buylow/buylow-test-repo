@@ -17,7 +17,7 @@
         "signedPermission": "rl",
         "signedResourceTypes": "sco",
         "keyToSign": "key1",
-        "signedExpiry": "2020-12-31T23:59:00Z"
+        "signedExpiry": "2021-12-31T23:59:00Z"
       }
     },
     "accountType": {
