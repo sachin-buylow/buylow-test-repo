@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
   "parameters": {
     "storageAccountName": {
-      "value": "sangalrsuse2tcccteitest0013"
+      "value": "sangalccteitest0013"
     },
     "interface_name": {
       "value": "isscom-sap-finishedgoods"
