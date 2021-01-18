@@ -1,0 +1,148 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "FunctionAppName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the function app that you wish to create."
+      }
+    },
+    "environment": {
+      "type": "string"
+    },
+    "storageAccountName": {
+      "type": "string"
+    },
+    "hostingPlanName": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string",
+    },
+	 "Images_API": {
+      "type": "string",
+    },
+	 "Products_API": {
+      "type": "string",
+    },
+	 "sbq-webhookenrichment": {
+      "type": "string",
+    },
+	 "Servicebus_Queue": {
+      "type": "string",
+    },
+	 "ServiceBusConnection": {
+      "type": "string",
+    },
+	 "SFTP_Port": {
+      "type": "string",
+    },
+	 "SFTP_Pwd": {
+      "type": "string",
+    },
+	 "SFTP_Server": {
+      "type": "string",
+    },
+	 "SFTP_User": {
+      "type": "string",
+    },
+	
+    "runtime": {
+      "type": "string",
+      "defaultValue": "java",
+      "allowedValues": [ "node", "dotnet", "java" ],
+      "metadata": {
+        "description": "The language worker runtime to load in the function app."
+      }
+    }
+  },
+  "variables": {
+    "CommonRG": "[concat('rg-',parameters('environment'),'-buylow-cca-keycomponents')]",
+    "StorageAccountRG": "[variables('CommonRG')]",
+    "ASPlanRG": "[variables('CommonRG')]",
+    "storageAccountId": "[resourceId(variables('StorageAccountRG'),'Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+    "ASPlanId": "[resourceId(variables('ASPlanRG'),'Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
+  },
+  "resources": [
+    {
+      "apiVersion": "2018-11-01",
+      "type": "Microsoft.Web/sites",
+      "name": "[parameters('FunctionAppName')]",
+      "location": "[parameters('location')]",
+      "kind": "functionapp",
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "serverFarmId": "[variables('ASPlanId')]",
+        "httpsOnly": true,
+        "siteConfig": {
+          "ftpsState": "Disabled",
+          "appSettings": [
+            {
+              "name": "AzureWebJobsStorage",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+            },
+            {
+              "name": "FUNCTIONS_EXTENSION_VERSION",
+              "value": "~2"
+            },
+            {
+              "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+
+            },
+            {
+              "name": "WEBSITE_CONTENTSHARE",
+              "value": "[parameters('FunctionAppName')]"
+            },
+            {
+              "name": "FUNCTIONS_WORKER_RUNTIME",
+              "value": "[parameters('runtime')]"
+            },
+			{
+              "name": "Images_API",
+              "value": "[parameters('Images_API')]"
+            },
+			{
+              "name": "Products_API",
+              "value": "[parameters('Products_API')]"
+            },
+			{
+              "name": "sbq-webhookenrichment",
+              "value": "[parameters('sbq-webhookenrichment')]"
+            },
+			{
+              "name": "Servicebus_Queue",
+              "value": "[parameters('Servicebus_Queue')]"
+            },
+			{
+              "name": "ServiceBusConnection",
+              "value": "[parameters('ServiceBusConnection')]"
+            },
+			{
+              "name": "SFTP_Port",
+              "value": "[parameters('SFTP_Port')]"
+            },
+			{
+              "name": "SFTP_Pwd",
+              "value": "[parameters('SFTP_Pwd')]"
+            },
+			{
+              "name": "SFTP_Server",
+              "value": "[parameters('SFTP_Server')]"
+            },
+			{
+              "name": "SFTP_User",
+              "value": "[parameters('SFTP_User')]"
+            }
+          ]
+        }
+
+      }
+	 
+
+    }
+  ]
+}

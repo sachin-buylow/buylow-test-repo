@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "value": "tst"
+    },
+    "FunctionAppName": {
+      "value": "fa-tst-cca-retail"
+    },
+    "storageAccountName": {
+      "value": "satstbuylowcca001"
+    },
+    "hostingPlanName": {
+      "value": "asp-cca-tst-cons"
+    },
+	"location":{
+	  "value": "canadacentral"
+	},
+     "Images_API": {
+      "value": "https://demo-api-contentdistribution.gs1ca.org/api/images/",
+    },
+	 "Products_API": {
+      "value": "https://demo-api-contentdistribution.gs1ca.org/api/products/exported.json?access_token=",
+    },
+	 "sbq-webhookenrichment": {
+      "value": "sbq-tst-webhookenrichment",
+    },
+	 "Servicebus_Queue": {
+      "value": "sbq-tst-webhookenrichment",
+    },
+	 "ServiceBusConnection": {
+      "value": "Endpoint=sb://sb-tst-buylow-cca.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=qSPm7iGI8eK/9+EMn9U6a+qClh5KkiL6vt2635sXu3M=",
+    },
+	 "SFTP_Port": {
+      "value": "22",
+    },
+	 "SFTP_Pwd": {
+      "value": "@Microsoft.KeyVault(SecretUri=https://kv-dev-buylow-cca.vault.azure.net/secrets/item-sftp-pwd/7b7c14497cbd4dbf9a64ed05fc7c069b)",
+    },
+	 "SFTP_Server": {
+      "value": "52.173.150.66",
+    },
+	 "SFTP_User": {
+      "value": "@Microsoft.KeyVault(SecretUri=https://kv-dev-buylow-cca.vault.azure.net/secrets/item-sftp-user/6a584cdfb4c44416af72dedb05b9e020)",
+    }
+    
+  }
+}
