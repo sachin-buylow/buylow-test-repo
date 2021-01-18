@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: AzureARMDeploy
+name: AzureARMDeployFA
 
 # Controls when the action will run. 
 on:
@@ -20,7 +20,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
         
-      - name: Azure ARM Deployment
+      - name: Azure ARM Deployment FA
         uses: azure/CLI@v1
         with:
           inlineScript: |
