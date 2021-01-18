@@ -1,0 +1,37 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "value": "salrsuse2tcccteitest0013"
+    },
+    "interface_name": {
+      "value": "isscom-sap-finishedgoods"
+    },
+    "advancedThreatProtectionEnabled": {
+      "value": true
+    },
+    "accountSasProperties": {
+      "value": {
+        "signedServices": "b",
+        "signedPermission": "rl",
+        "signedResourceTypes": "sco",
+        "keyToSign": "key1",
+        "signedExpiry": "2020-12-31T23:59:00Z"
+      }
+    },
+    "accountType": {
+      "value": "Standard_LRS"
+    },
+    "storageAccountKind": {
+      "value": "StorageV2"
+    },
+  
+    "isSoftDeleteEnabled": {
+      "value": true
+    },    
+    "softDeleteRetentionDays": {
+      "value": 15
+    }
+  }
+}
