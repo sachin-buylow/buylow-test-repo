@@ -18,34 +18,7 @@
       "type": "string"
     },
     "location": {
-      "type": "string",
-    },
-	 "Images_API": {
-      "type": "string",
-    },
-	 "Products_API": {
-      "type": "string",
-    },
-	 "sbq-webhookenrichment": {
-      "type": "string",
-    },
-	 "Servicebus_Queue": {
-      "type": "string",
-    },
-	 "ServiceBusConnection": {
-      "type": "string",
-    },
-	 "SFTP_Port": {
-      "type": "string",
-    },
-	 "SFTP_Pwd": {
-      "type": "string",
-    },
-	 "SFTP_Server": {
-      "type": "string",
-    },
-	 "SFTP_User": {
-      "type": "string",
+      "type": "string"
     },
 	
     "runtime": {
@@ -62,7 +35,7 @@
     "StorageAccountRG": "[variables('CommonRG')]",
     "ASPlanRG": "[variables('CommonRG')]",
     "storageAccountId": "[resourceId(variables('StorageAccountRG'),'Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
-    "ASPlanId": "[resourceId(variables('ASPlanRG'),'Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
+    "ASPlanId": "[resourceId(variables('ASPlanRG'),'Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
   },
   "resources": [
     {
@@ -100,43 +73,8 @@
             {
               "name": "FUNCTIONS_WORKER_RUNTIME",
               "value": "[parameters('runtime')]"
-            },
-			{
-              "name": "Images_API",
-              "value": "[parameters('Images_API')]"
-            },
-			{
-              "name": "Products_API",
-              "value": "[parameters('Products_API')]"
-            },
-			{
-              "name": "sbq-webhookenrichment",
-              "value": "[parameters('sbq-webhookenrichment')]"
-            },
-			{
-              "name": "Servicebus_Queue",
-              "value": "[parameters('Servicebus_Queue')]"
-            },
-			{
-              "name": "ServiceBusConnection",
-              "value": "[parameters('ServiceBusConnection')]"
-            },
-			{
-              "name": "SFTP_Port",
-              "value": "[parameters('SFTP_Port')]"
-            },
-			{
-              "name": "SFTP_Pwd",
-              "value": "[parameters('SFTP_Pwd')]"
-            },
-			{
-              "name": "SFTP_Server",
-              "value": "[parameters('SFTP_Server')]"
-            },
-			{
-              "name": "SFTP_User",
-              "value": "[parameters('SFTP_User')]"
             }
+			
           ]
         }
 
