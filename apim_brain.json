@@ -1,0 +1,196 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"prefix": {
+			"type": "string"
+		},
+		"environment": {
+			"type": "string"
+		},
+		"location": {
+			"type": "string",
+			"defaultValue": "[resourceGroup().location]"
+		},
+		"subscriptionId": {
+			"type": "string"
+		},
+		"publisherEmail": {
+			"type": "string"
+		},
+		"publisherName": {
+			"type": "string"
+		},
+		"sku": {
+			"type": "string",
+			"defaultValue": "Consumption"
+		},
+		"capacity": {
+			"type": "string",
+			"defaultValue": "0"
+		},
+		"tags": {
+			"type": "object",
+			"defaultValue": {
+				
+			}
+		}
+	},
+	"variables": {
+		"name": "[concat(parameters('prefix'), '-', parameters('environment'), '-apim')]",
+		"resourceGroupName": "[concat(parameters('prefix'), '-', parameters('environment'), '-rg')]",
+		"appInsightsName": "[concat(parameters('prefix'), '-appinsights-', parameters('environment'))]"
+	},
+	"resources": [
+		{
+			"type": "Microsoft.ApiManagement/service",
+			"apiVersion": "2019-12-01",
+			"name": "[variables('name')]",
+			"location": "[parameters('location')]",
+			"tags": "[parameters('tags')]",
+			"sku": {
+				"name": "[parameters('sku')]",
+				"capacity": "[parameters('capacity')]"
+			},
+			"properties": {
+				"publisherEmail": "[parameters('publisherEmail')]",
+				"publisherName": "[parameters('publisherName')]"
+			},
+			"resources": [
+				{
+					"type": "loggers",
+					"apiVersion": "2019-12-01",
+					"name": "[variables('appInsightsName')]",
+					"dependsOn": [
+						"[concat('Microsoft.ApiManagement/service/', variables('name'))]"
+					],
+					"properties": {
+						"loggerType": "applicationInsights",
+						"resourceId": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Insights/components/', variables('appInsightsName'))]",
+						"credentials": {
+							"instrumentationKey": "[reference(concat('Microsoft.Insights/components/', variables('appInsightsName')),'2015-05-01').InstrumentationKey]"
+						}
+					}
+				},
+				{
+					"type": "diagnostics",
+					"apiVersion": "2019-12-01",
+					"name": "applicationinsights",
+					"dependsOn": [
+						"[concat('Microsoft.ApiManagement/service/', variables('name'))]",
+						"[concat('Microsoft.ApiManagement/service/', variables('name'), '/loggers/', variables('appInsightsName'))]"
+					],
+					"properties": {
+						"loggerId": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.ApiManagement/service/', variables('name'), '/loggers/', variables('appInsightsName'))]",
+						"alwaysLog": "allErrors",
+						"sampling": {
+							"percentage": 100,
+							"samplingType": "fixed"
+						}
+					}
+				}
+			]
+		},
+		{
+            "type": "Microsoft.ApiManagement/service/apis",
+            "apiVersion": "2019-12-01",
+            "name": "[concat(variables('name'), '/la-dev-buylow-cca-mi9-publishorderdetails')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', variables('name'))]"
+            ],
+            "properties": {
+                "displayName": "publishorderdetails",
+                "apiRevision": "1",
+                "description": "Azure Logic App.",
+                "subscriptionRequired": false,
+                "serviceUrl": "https://prod-07.canadacentral.logic.azure.com/workflows/36570dde976943c992373091ef9dfd40/triggers",
+                "path": "order",
+                "protocols": [
+                    "https"
+                ],
+                "isCurrent": true
+            }
+        },
+		 {
+            "type": "Microsoft.ApiManagement/service/backends",
+            "apiVersion": "2019-12-01",
+            "name": "[concat(variables('name'), '/LogicApp_la-dev-buylow-cca-mi9-publishorderde_e6cd553c4a46c58fd911dd23411c90ec')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', variables('name'))]"
+            ],
+            "properties": {
+                "description": "la-dev-buylow-cca-mi9-publishorderdetails",
+                "url": "https://prod-07.canadacentral.logic.azure.com/workflows/36570dde976943c992373091ef9dfd40/triggers",
+                "protocol": "http",
+                "resourceId": "https://management.azure.com/subscriptions/3913ea69-594d-43b6-b691-10aa597471f7/resourceGroups/rg-dev-buylow-cca-order/providers/Microsoft.Logic/workflows/la-dev-buylow-cca-mi9-publishorderdetails"
+            }
+        },
+		  {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2019-12-01",
+            "name": "[concat(variables('name'), '/la-dev-buylow-cca-mi9-publishorderdetails/request-invoke')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', variables('name'), 'la-dev-buylow-cca-mi9-publishorderdetails')]",
+                "[resourceId('Microsoft.ApiManagement/service', variables('name'))]"
+            ],
+            "properties": {
+                "displayName": "receiveOrder",
+                "method": "POST",
+                "urlTemplate": "/request",
+                "templateParameters": [],
+                "description": "Trigger a run of the logic app.",
+                "request": {
+                    "description": "The request body.",
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "schemaId": "5fa13238b6c3ea1280009ebc",
+                            "typeName": "request-request"
+                        }
+                    ]
+                },
+                "responses": [
+                    {
+                        "statusCode": 200,
+                        "description": "The Logic App Response.",
+                        "representations": [
+                            {
+                                "contentType": "application/json",
+                                "schemaId": "5fa13238b6c3ea1280009ebc",
+                                "typeName": "RequestPathsInvokePost200ApplicationJsonResponse"
+                            }
+                        ],
+                        "headers": []
+                    },
+                    {
+                        "statusCode": 500,
+                        "description": "The Logic App Response.",
+                        "representations": [
+                            {
+                                "contentType": "application/json",
+                                "schemaId": "5fa13238b6c3ea1280009ebc",
+                                "typeName": "RequestPathsInvokePost500ApplicationJsonResponse"
+                            }
+                        ],
+                        "headers": []
+                    }
+                ]
+            }
+        },
+		{
+            "type": "Microsoft.ApiManagement/service/apis/policies",
+            "apiVersion": "2019-12-01",
+            "name": "[concat(variables('name'), '/la-dev-buylow-cca-mi9-publishorderdetails/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', variables('name'), 'la-dev-buylow-cca-mi9-publishorderdetails')]",
+                "[resourceId('Microsoft.ApiManagement/service', variables('name'))]"
+            ],
+            "properties": {
+                "value": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-backend-service id=\"apim-generated-policy\" backend-id=\"LogicApp_la-dev-buylow-cca-mi9-publishorderde_e6cd553c4a46c58fd911dd23411c90ec\" />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+	]
+}
