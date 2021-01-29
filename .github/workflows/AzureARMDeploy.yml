@@ -6,7 +6,7 @@ name: AzureARMDeploy
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-   # branches: [ main ]
+    branches: [ main ]
   
 jobs:
   # This workflow contains a single job called "build"
