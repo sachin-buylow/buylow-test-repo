@@ -14,7 +14,7 @@
         <java.version>11</java.version>
         <azure.functions.maven.plugin.version>1.9.0</azure.functions.maven.plugin.version>
         <azure.functions.java.library.version>1.4.0</azure.functions.java.library.version>
-        <functionAppName>userapi-1611049907225</functionAppName>
+        <functionAppName>fa-tst-cca-retail111</functionAppName>
         <stagingDirectory>${project.build.directory}/azure-functions/${functionAppName}</stagingDirectory>
         <maven.test.skip>true</maven.test.skip>
         <maven.test.failure.ignore>true</maven.test.failure.ignore>
