@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: AzureARMDeploy
+name: Azure Function Deploy
 
 # Controls when the action will run. 
 on:
@@ -11,7 +11,7 @@ env:
   AZURE_FUNCTIONAPP_NAME: fa-tst-cca-retail111 # set this to your function app name on Azure
   POM_XML_DIRECTORY: /Function                       # set this to the directory which contains pom.xml file
   POM_FUNCTIONAPP_NAME: fa-tst-cca-retail111   # set this to the function app name in your local development environment
-  JAVA_VERSION: '1.8.x'                      # set this to the java version to use  
+  JAVA_VERSION: '11'                      # set this to the java version to use  
   
 jobs:
   # This workflow contains a single job called "build"
