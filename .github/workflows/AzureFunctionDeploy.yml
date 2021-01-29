@@ -6,11 +6,11 @@ name: Azure Function Deploy
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ develop ]
+    branches: [ Main ]
 env:
-  AZURE_FUNCTIONAPP_NAME: fa-tst-cca-retail111 # set this to your function app name on Azure
-  POM_XML_DIRECTORY: /Function                       # set this to the directory which contains pom.xml file
-  POM_FUNCTIONAPP_NAME: fa-tst-cca-retail111   # set this to the function app name in your local development environment
+  AZURE_FUNCTIONAPP_NAME: poq-fa-sandbox  # set this to your function app name on Azure
+  POM_XML_DIRECTORY: /POQPost                       # set this to the directory which contains pom.xml file
+  POM_FUNCTIONAPP_NAME: poq-fa-sandbox   # set this to the function app name in your local development environment
   JAVA_VERSION: '11'                      # set this to the java version to use  
   
 jobs:
