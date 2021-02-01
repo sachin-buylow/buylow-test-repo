@@ -32,4 +32,4 @@ jobs:
       with:
         app-name: fa-tst-cca-retail111
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-        package: 'target/azure-functions/hello'
+        package: 'target/azure-functions/Function'
