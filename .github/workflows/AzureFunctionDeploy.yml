@@ -2,7 +2,7 @@ name: sandbox
 
 on:
   push:
-    branches: [ feature/*, users/* ]
+    branches: [ develop ]
 
   workflow_dispatch:
 
